@@ -13,7 +13,7 @@ def main(device_id=0):
 
     def on_device_data(page: int, page_name: str, data):
         if isinstance(data, PowerData):
-            print(f"Heart rate update {data.heart_rate} bpm")
+            print(f"Heart rate update {data.power} bpm")
 
     device.on_found = on_found
     device.on_device_data = on_device_data
