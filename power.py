@@ -8,12 +8,6 @@ Refer to subparsers/influx for another example of creating multiple devices at r
 from openant.easy.node import Node
 from openant.devices import ANTPLUS_NETWORK_KEY
 from openant.devices.power_meter import PowerMeter, PowerData
-from openant.devices.fitness_equipment import (
-    FitnessEquipment,
-    FitnessEquipmentData,
-    Workout,
-)
-
 
 def main():
     import logging
@@ -22,21 +16,12 @@ def main():
     node = Node()
     node.set_network_key(0x00, ANTPLUS_NETWORK_KEY)
     devices = []
-    # create workout intervals for FE
-    workouts = [
-        Workout.from_ramp(
-            start=150, stop=150, step=350, period=30.0, peak=500, cycles=8
-        )
-    ]
+
 
     devices.append(PowerMeter(node))
-    devices.append(FitnessEquipment(node))
 
     def on_found(device):
         print(f"Device {device} found and receiving")
-
-        if type(device) == FitnessEquipment and len(workouts) > 0:
-            device.start_workouts(workouts)
 
     def on_device_data(page: int, page_name: str, data):
         if isinstance(data, PowerData):
