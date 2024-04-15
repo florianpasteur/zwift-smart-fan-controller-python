@@ -8,6 +8,9 @@ Refer to subparsers/influx for another example of creating multiple devices at r
 from openant.easy.node import Node
 from openant.devices import ANTPLUS_NETWORK_KEY
 from openant.devices.power_meter import PowerMeter, PowerData
+import requests
+
+
 
 def main():
     import logging
@@ -26,6 +29,12 @@ def main():
     def on_device_data(page: int, page_name: str, data):
         if isinstance(data, PowerData):
             print(f"PowerMeter {data.instantaneous_power}")
+            if data.instantaneous_power > 50:
+                requests.get('http://192.168.1.41/', params={
+                    'm': '1',
+                    'o': '1',
+                })
+
 
     for d in devices:
         d.on_found = lambda: on_found(d)
