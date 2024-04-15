@@ -40,9 +40,7 @@ def main():
 
     def on_device_data(page: int, page_name: str, data):
         if isinstance(data, PowerData):
-            print(f"PowerMeter {page_name} ({page}) update: {data}")
-        elif isinstance(data, FitnessEquipmentData):
-            print(f"FitnessEquipment {page_name} ({page}) update: {data}")
+            print(f"PowerMeter {data.instantaneous_power}")
 
     for d in devices:
         d.on_found = lambda: on_found(d)
