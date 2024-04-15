@@ -18,7 +18,7 @@ from openant.devices.fitness_equipment import (
 def main():
     import logging
 
-    logging.basicConfig(level=logging.INFO)
+    # logging.basicConfig(level=logging.INFO)
     node = Node()
     node.set_network_key(0x00, ANTPLUS_NETWORK_KEY)
     devices = []
