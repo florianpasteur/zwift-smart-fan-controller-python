@@ -28,16 +28,17 @@ def main():
     def on_device_data(page: int, page_name: str, data):
         if isinstance(data, PowerData):
             print(f"⚡️ {data.instantaneous_power} {data.average_power}")
-            with open('power_meter_ranges.json', 'r') as file:
-                power_meter_ranges = json.load(file)
-                if data.average_power == 0:
-                    fan_level(0)
-                if data.average_power > 50:
-                    fan_level(1)
-                if data.average_power > 210:
-                    fan_level(2)
-                if data.average_power > 280:
-                    fan_level(3)
+            if data.page == 16:
+                with open('power_meter_ranges.json', 'r') as file:
+                    power_meter_ranges = json.load(file)
+                    if data.average_power == 0:
+                        fan_level(0)
+                    if data.average_power > 50:
+                        fan_level(1)
+                    if data.average_power > 210:
+                        fan_level(2)
+                    if data.average_power > 280:
+                        fan_level(3)
 
         if isinstance(data, HeartRateData):
             print(f"❤️ {data.heart_rate}")
