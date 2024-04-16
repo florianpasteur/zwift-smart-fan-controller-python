@@ -13,9 +13,6 @@ import requests
 
 
 def main():
-    import logging
-
-    # logging.basicConfig(level=logging.INFO)
     node = Node()
     node.set_network_key(0x00, ANTPLUS_NETWORK_KEY)
     devices = []
@@ -36,7 +33,6 @@ def main():
                 })
 
 
-    for d in devices:
         d.on_found = lambda: on_found(d)
         d.on_device_data = on_device_data
 
