@@ -1,0 +1,12 @@
+[Unit]
+Description=My Python Script
+After=network.target
+
+[Service]
+ExecStart=sudo python3 /path/to/your/script.py
+WorkingDirectory=/path/to/your/
+User=root
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
