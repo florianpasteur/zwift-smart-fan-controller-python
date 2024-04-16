@@ -61,17 +61,6 @@ def main():
 def fan_level(speed):
     global last_change_time, current_speed
     current_time = time.time()
-
-    if speed == current_speed:
-        return
-
-    # Check if the requested speed is lower than the current speed
-    if speed < current_speed:
-        # Check if 30 seconds have passed since the last speed change
-        if current_time - last_change_time < 30:
-            # Do not change the speed if less than 30 seconds have passed
-            return
-
     requests.get('http://192.168.1.41/cm', params={'cmnd': 'Power0 Off'})
     if current_speed > 0:
         print(f"🪭 {current_speed}")
