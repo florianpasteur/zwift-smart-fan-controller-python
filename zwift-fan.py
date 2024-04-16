@@ -20,7 +20,7 @@ def main():
     fan_level(0)
     with open('power_meter_ranges.json', 'r') as file:
         power_meter_ranges = json.load(file)
-        print(f"Configuration {power_meter_ranges.low}")
+        print(f"Configuration {power_meter_ranges['low']}")
 
     def on_found(device):
         print(f"Device {device} found and receiving")
