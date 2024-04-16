@@ -26,11 +26,11 @@ def main():
             print(f"PowerMeter {data.instantaneous_power}")
             with open('power_meter_ranges.json', 'r') as file:
                 power_meter_ranges = json.load(file)
-                if data.instantaneous_power > power_meter_ranges.low:
+                if data.instantaneous_power > 50:
                     fan_level(1)
-                if data.instantaneous_power > power_meter_ranges.medium:
+                if data.instantaneous_power > 210:
                     fan_level(2)
-                if data.instantaneous_power > power_meter_ranges.high:
+                if data.instantaneous_power > 280:
                     fan_level(3)
 
         if isinstance(data, HeartRateData):
