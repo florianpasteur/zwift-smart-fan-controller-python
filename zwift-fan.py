@@ -22,6 +22,7 @@ def main():
         print(f"Device {device} found and receiving")
 
     def on_device_data(page: int, page_name: str, data):
+        print(f"page: {page} name: {page_name}, {data}")
         if isinstance(data, PowerData):
             print(f"PowerMeter {data.instantaneous_power}")
             with open('power_meter_ranges.json', 'r') as file:
