@@ -74,6 +74,7 @@ def fan_level(speed):
 
     requests.get('http://192.168.1.41/cm', params={'cmnd': 'Power0 Off'})
     if current_speed > 0:
+        print(f"🪭 {current_speed}")
         requests.get('http://192.168.1.41/cm', params={'cmnd': 'Power{0}  On'.format(current_speed)})
 
     current_speed = speed
