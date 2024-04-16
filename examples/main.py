@@ -1,6 +1,7 @@
 from openant.easy.node import Node
 from openant.devices import ANTPLUS_NETWORK_KEY
 from openant.devices.power_meter import PowerMeter, PowerData
+from openant.devices.heart_rate import HeartRate, HeartRateData
 
 def main(device_id=0):
     node = Node()
@@ -14,6 +15,7 @@ def main(device_id=0):
     def on_device_data(page: int, page_name: str, data):
         if isinstance(data, PowerData):
             print(f"Heart rate update {data.power} bpm")
+
 
     device.on_found = on_found
     device.on_device_data = on_device_data

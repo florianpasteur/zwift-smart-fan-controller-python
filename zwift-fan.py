@@ -1,6 +1,8 @@
 from openant.easy.node import Node
 from openant.devices import ANTPLUS_NETWORK_KEY
 from openant.devices.power_meter import PowerMeter, PowerData
+from openant.devices.heart_rate import HeartRate, HeartRateData
+
 import requests
 import time
 import json
@@ -14,6 +16,7 @@ def main():
     node.set_network_key(0x00, ANTPLUS_NETWORK_KEY)
     devices = []
     devices.append(PowerMeter(node))
+    devices.append(HeartRate(node))
 
     def on_found(device):
         print(f"Device {device} found and receiving")
@@ -30,6 +33,10 @@ def main():
             if data.instantaneous_power > power_meter_ranges.high:
                 fan_level(3)
 
+        if isinstance(data, HeartRateData):
+            print(f"Heart rate update {data.heart_rate} bpm")
+
+    for d in devices:
         d.on_found = lambda: on_found(d)
         d.on_device_data = on_device_data
 
