@@ -27,6 +27,8 @@ def main():
             print(f"PowerMeter {data.instantaneous_power}")
             with open('power_meter_ranges.json', 'r') as file:
                 power_meter_ranges = json.load(file)
+                if data.average_power == 0:
+                    fan_level(0)
                 if data.average_power > 50:
                     fan_level(1)
                 if data.average_power > 210:
@@ -55,6 +57,9 @@ def main():
 def fan_level(speed):
     global last_change_time, current_speed
     current_time = time.time()
+
+    if speed == current_speed:
+        return
 
     # Check if the requested speed is lower than the current speed
     if speed < current_speed:
