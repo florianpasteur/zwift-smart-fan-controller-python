@@ -20,15 +20,14 @@ def main():
     fan_level(0)
     with open('power_meter_ranges.json', 'r') as file:
         power_meter_ranges = json.load(file)
-        print(f"Configuration {power_meter_ranges}")
+        print(f"Configuration {power_meter_ranges.low}")
 
     def on_found(device):
         print(f"Device {device} found and receiving")
 
     def on_device_data(page: int, page_name: str, data):
-        print(f"page: {page} name: {page_name}, {data}")
         if isinstance(data, PowerData):
-            print(f"⚡️ {data.instantaneous_power}")
+            print(f"⚡️ {data.instantaneous_power} {data.average_power}")
             with open('power_meter_ranges.json', 'r') as file:
                 power_meter_ranges = json.load(file)
                 if data.average_power == 0:
