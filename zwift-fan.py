@@ -3,6 +3,7 @@ from openant.devices import ANTPLUS_NETWORK_KEY
 from openant.devices.power_meter import PowerMeter, PowerData
 import requests
 import time
+import json
 
 last_change_time = 0
 current_speed = 0
@@ -20,11 +21,13 @@ def main():
     def on_device_data(page: int, page_name: str, data):
         if isinstance(data, PowerData):
             print(f"PowerMeter {data.instantaneous_power}")
-            if data.instantaneous_power > 50:
+            with open('power_meter_ranges.json', 'r') as file:
+                power_meter_ranges = json.load(file)
+            if data.instantaneous_power > power_meter_ranges.low:
                 fan_level(1)
-            if data.instantaneous_power > 150:
+            if data.instantaneous_power > power_meter_ranges.medium:
                 fan_level(2)
-            if data.instantaneous_power > 250:
+            if data.instantaneous_power > power_meter_ranges.high:
                 fan_level(3)
 
         d.on_found = lambda: on_found(d)
