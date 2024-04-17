@@ -2,19 +2,19 @@ from openant.easy.node import Node
 from openant.devices import ANTPLUS_NETWORK_KEY
 from openant.devices.power_meter import PowerMeter, PowerData
 from openant.devices.heart_rate import HeartRate, HeartRateData
-from dotenv import load_dotenv
 
 import requests
 import time
 import json
-import os
 
-load_dotenv()
 
 last_change_time = 0
 current_speed = 0
 
-SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
+SLACK_WEBHOOK_URL = config["SLACK_WEBHOOK_URL"]
 
 
 def main():
