@@ -3,8 +3,8 @@ Description=Zwift Fan controller
 After=network.target
 
 [Service]
-ExecStart=sudo python3 /home/solidsnake/openant-examples/zwift-smart-fan-controller-python/zwift-fan.py
-WorkingDirectory=/home/solidsnake/openant-examples/zwift-smart-fan-controller-python/
+ExecStart=sudo python3 /home/solidsnake/zwift-smart-fan-controller-python/zwift-fan.py
+WorkingDirectory=/home/solidsnake/zwift-smart-fan-controller-python/
 User=root
 Restart=always
 
