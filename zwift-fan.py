@@ -53,6 +53,7 @@ def main():
 
     try:
         print(f"Starting {devices}, press Ctrl-C to finish")
+        log_to_slack("Fan has booted")
         node.start()
     except KeyboardInterrupt:
         print("Closing ANT+ device...")
