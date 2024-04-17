@@ -6,9 +6,12 @@ from openant.devices.heart_rate import HeartRate, HeartRateData
 import requests
 import time
 import json
+import os
 
 last_change_time = 0
 current_speed = 0
+
+SLACK_WEBHOOK_URL=os.environ["SLACK_WEBHOOK_URL"]
 
 
 def main():
@@ -69,6 +72,21 @@ def fan_level(speed):
 
     current_speed = speed
     last_change_time = current_time
+
+
+def log_to_slack(message):
+    payload = {
+        "text": message,
+        "username": "Fan Speed Logger",
+        "icon_emoji": ":gear:",  # You can customize the emoji
+    }
+
+    try:
+        response = requests.post(SLACK_WEBHOOK_URL, data=json.dumps(payload), headers={'Content-Type': 'application/json'})
+        if response.status_code != 200:
+            print(f"Failed to send message to Slack: {response.content}")
+    except Exception as e:
+        print(f"Error sending message to Slack: {e}")
 
 
 if __name__ == "__main__":
