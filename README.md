@@ -14,7 +14,7 @@
 - Copy the file [zwift-fan.service](zwift-fan.service).
 
 ```bash
-sudo cp zwift-fan.service /etc/systemd/system/zwift-fan.service
+sudo ln -s zwift-fan.service /etc/systemd/system/zwift-fan.service
 ```
 
 - Edit the file and adapt the path to the entry point python script
