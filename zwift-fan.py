@@ -2,24 +2,25 @@ from openant.easy.node import Node
 from openant.devices import ANTPLUS_NETWORK_KEY
 from openant.devices.power_meter import PowerMeter, PowerData
 from openant.devices.heart_rate import HeartRate, HeartRateData
+from dotenv import load_dotenv
 
 import requests
 import time
 import json
 import os
 
+load_dotenv()
+
 last_change_time = 0
 current_speed = 0
 
-SLACK_WEBHOOK_URL=os.environ["SLACK_WEBHOOK_URL"]
+SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
 
 
 def main():
     node = Node()
     node.set_network_key(0x00, ANTPLUS_NETWORK_KEY)
-    devices = []
-    devices.append(PowerMeter(node))
-    devices.append(HeartRate(node))
+    devices = [PowerMeter(node), HeartRate(node)]
     fan_level(0)
     with open('power_meter_ranges.json', 'r') as file:
         power_meter_ranges = json.load(file)
@@ -82,7 +83,11 @@ def log_to_slack(message):
     }
 
     try:
-        response = requests.post(SLACK_WEBHOOK_URL, data=json.dumps(payload), headers={'Content-Type': 'application/json'})
+        response = requests.post(
+            SLACK_WEBHOOK_URL,
+            data=json.dumps(payload),
+            headers={'Content-Type': 'application/json'}
+        )
         if response.status_code != 200:
             print(f"Failed to send message to Slack: {response.content}")
     except Exception as e:
