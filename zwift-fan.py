@@ -7,15 +7,31 @@ import requests
 import time
 import json
 
+class BufferCount:
+    def __init__(self, buffer_size: int = 3):
+        self.values = []
+        self.buffer_size = buffer_size
 
-last_change_time = 0
-current_speed = 0
+    def next(self, value):
+        if len(self.values) == self.buffer_size:
+            self.values.pop(0)
+        self.values.append(value)
+
+    def get_average(self):
+        if not self.values:
+            return 0
+        return sum(self.values) / len(self.values)
+
+
 
 with open('config.json', 'r') as f:
     config = json.load(f)
 
 SLACK_WEBHOOK_URL = config["SLACK_WEBHOOK_URL"]
 
+HR = BufferCount(5)
+POWER = BufferCount(5)
+FAN_SPEED = 0
 
 def main():
     node = Node()
@@ -31,21 +47,10 @@ def main():
 
     def on_device_data(page: int, page_name: str, data):
         if isinstance(data, PowerData):
-            print(f"⚡️ {data.instantaneous_power} {data.average_power}")
-            if page == 16:
-                with open('power_meter_ranges.json', 'r') as file:
-                    power_meter_ranges = json.load(file)
-                    if data.average_power == 0:
-                        fan_level(0)
-                    if data.average_power > 50:
-                        fan_level(1)
-                    if data.average_power > 210:
-                        fan_level(2)
-                    if data.average_power > 280:
-                        fan_level(3)
-
+            POWER.next(data.instantaneous_power)
         if isinstance(data, HeartRateData):
-            print(f"❤️ {data.heart_rate}")
+            HR.next(data.heart_rate)
+        print(f"⚡️{POWER.get_average()} ❤️{HR.get_average()} 🪭{FAN_SPEED}")
 
     for d in devices:
         d.on_found = lambda: on_found(d)
@@ -97,3 +102,5 @@ def log_to_slack(message):
 
 if __name__ == "__main__":
     main()
+
+
