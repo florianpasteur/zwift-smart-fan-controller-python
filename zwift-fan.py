@@ -69,17 +69,12 @@ def main():
 
 
 def fan_level(speed):
-    global last_change_time, current_speed
-    current_time = time.time()
-
-    print(f"🪭 {current_speed}")
+    global FAN_SPEED
     # requests.get('http://192.168.1.41/cm', params={'cmnd': 'Power0 Off'})
     # if current_speed > 0:
     #     requests.get('http://192.168.1.41/cm', params={'cmnd': 'Power{0}  On'.format(current_speed)})
 
-    current_speed = speed
-    last_change_time = current_time
-
+    FAN_SPEED = speed
 
 def log_to_slack(message):
     payload = {
